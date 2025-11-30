@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto CITE Colaborativo 25/26</title>
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<!-- =======================================================
+     PANTALLA DE SELECCIÓN DE PROYECTO
+======================================================= -->
+<div id="pantallaProyecto" class="pantalla-proyecto">
+  <div class="caja-proyecto">
+    <h2>Selecciona el proyecto</h2>
+
+    <button class="btn-proyecto" onclick="elegirProyecto('CITE')">
+      Proyecto CITE
+    </button>
+
+    <button class="btn-proyecto" onclick="elegirProyecto('EMPRENDEDORA')">
+      Cultura Emprendedora
+    </button>
+  </div>
+</div>
+
+<!-- =======================================================
+     OVERLAY PUBLICANDO
+======================================================= -->
+<div id="overlayPublicando">
+  <div class="mensajePublicando">
+    Publicando en Blogger…
+    <br>
+    <small>Por favor, espera</small>
+  </div>
+</div>
+
+<!-- =======================================================
+     CONTENEDOR PRINCIPAL
+======================================================= -->
+<div id="container">
+
+  <h1>CEIP Santa María del Prado</h1>
+  <h2 id="tituloProyecto">Proyecto CITE Colaborativo Curso 25/26</h2>
+
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 1 -->
+  <!-- ======================================================= -->
+
+  <div class="bloque">
+    <h3>BLOQUE 1 · Evidencias CITE</h3>
+
+    <div class="fila-b1">
+      <div class="columna">
+        <label>La actividad fue coordinada por:</label>
+        <select id="coordinadores" multiple></select>
+      </div>
+
+      <div class="columna">
+        <label>Título de la evidencia:</label>
+        <input type="text" id="tituloEvidencia" placeholder="Escribe aquí el título" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 2 -->
+  <!-- ======================================================= -->
+
+  <div class="bloque">
+    <h3>BLOQUE 2 · Descripción de la actividad</h3>
+
+    <div class="fila-2columnas">
+      <div class="columna">
+        <label>Grupos implicados en su desarrollo:</label>
+        <select id="grupos" multiple></select>
+      </div>
+
+      <div class="columna">
+        <label>Objetivo principal de la actividad:</label>
+        <div class="objetivo-fijo">
+          Integrar el uso de tecnologías en actividades educativas cotidianas
+        </div>
+      </div>
+    </div>
+
+    <label>Relación con el Proyecto presentado:</label>
+    <select id="relProyecto" multiple></select>
+
+    <label>¿Cómo se ha llevado a cabo?</label>
+    <textarea id="descripcion" placeholder="Describe brevemente cómo se ha desarrollado la actividad"></textarea>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 3 -->
+  <!-- ======================================================= -->
+
+  <div class="bloque">
+    <h3>BLOQUE 3 · Elementos preparados previos al trabajo con el alumnado</h3>
+
+    <label>Descripción:</label>
+    <textarea id="descripcionPreparados" placeholder="Describe los materiales o elementos que preparaste antes de la actividad"></textarea>
+
+    <label>Tiempo dedicado:</label>
+    <select id="tiempoPreparacion">
+      <option value="">Selecciona una opción</option>
+    </select>
+
+    <label>Imágenes:</label>
+    <div class="dropzone" id="dropzonePreparados">Arrastra aquí o haz clic</div>
+    <div class="preview" id="previewPreparados"></div>
+
+    <label>Vídeos relacionados:</label>
+    <button class="add-video-btn" type="button" onclick="agregarVideo('videosPrep')">
+      + Añadir enlace de YouTube
+    </button>
+    <div id="videosPrep" class="video-container"></div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 4 -->
+  <!-- ======================================================= -->
+
+  <div class="bloque">
+    <h3>BLOQUE 4 · Elementos tecnológicos específicos usados</h3>
+
+    <div class="fila-2col">
+      <div class="columna">
+        <label>Herramientas tecnológicas:</label>
+        <select id="herramientasTec" multiple></select>
+      </div>
+
+      <div class="columna">
+        <label>Páginas web / Herramientas digitales:</label>
+        <select id="paginasWeb" multiple></select>
+      </div>
+    </div>
+
+    <div class="fila-2col">
+      <div class="columna">
+        <label>Software específico:</label>
+        <select id="softwareEspecifico" multiple></select>
+      </div>
+
+      <div class="columna">
+        <label>Elementos multimedia:</label>
+        <select id="elementosMultimediaTec" multiple></select>
+      </div>
+    </div>
+
+    <label>Otros (especificar):</label>
+    <input type="text" id="otrosTec" placeholder="Especifica aquí" />
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 5 -->
+  <!-- ======================================================= -->
+
+  <div class="bloque">
+    <h3>BLOQUE 5 · Tiempo dedicado</h3>
+
+    <div class="fila-3columnas">
+      <div class="columna">
+        <label>N.º de sesiones con el alumnado:</label>
+        <select id="tiempoSesiones">
+          <option value="">Selecciona una opción</option>
+        </select>
+      </div>
+
+      <div class="columna">
+        <label>Horas dedicadas:</label>
+        <select id="tiempoHoras">
+          <option value="">Selecciona una opción</option>
+        </select>
+      </div>
+
+      <div class="columna">
+        <label>Minutos dedicados:</label>
+        <select id="tiempoMinutos">
+          <option value="">Selecciona una opción</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 6 -->
+  <!-- ======================================================= -->
+
+  <div class="bloque">
+    <h3>BLOQUE 6 · Elementos multimedia que documentan la actividad</h3>
+
+    <label>Tipo de elementos:</label>
+    <select id="elementosDocu" multiple></select>
+
+    <label>Imágenes:</label>
+    <div id="dropzonePub" class="dropzone">Arrastra aquí o haz clic</div>
+    <div id="previewPub" class="preview"></div>
+
+    <label>Vídeos:</label>
+    <button class="add-video-btn" type="button" onclick="agregarVideo('videosPub')">
+      + Añadir enlace de YouTube
+    </button>
+    <div id="videosPub" class="video-container"></div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 7 -->
+  <!-- ======================================================= -->
+
+  <div class="bloque">
+    <h3>BLOQUE 7 · Texto para Blogger</h3>
+
+    <p><strong>¿Qué texto deseas usar para la publicación?</strong></p>
+
+    <div class="toggle-group">
+      <button id="btnAutoTexto" class="toggle-btn active" type="button">Usar texto automático</button>
+      <button id="btnManualTexto" class="toggle-btn" type="button">Escribir texto manual</button>
+    </div>
+
+    <textarea id="textoBlogger" placeholder="Texto que aparecerá en la publicación de Blogger"></textarea>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- BLOQUE 8 · BOTONES -->
+  <!-- ======================================================= -->
+
+  <div class="botones-doble">
+  <button id="btnConectarBlogger" class="btn-mini" type="button">Conectar con Blogger</button>
+  <button id="btnPublicarBlogger" class="btn-mini" type="button">Publicar en Blogger</button>
+  <button id="btnLimpiar" class="btn-mini" type="button">Limpiar ficha</button>
+</div>
+
+    <!-- ======================================================= -->
+  <!-- MODAL DE ERRORES -->
+  <!-- ======================================================= -->
+
+  <div id="modalErrores" class="modal">
+    <div class="modal-contenido">
+      <h3>❌ No es posible publicar</h3>
+      <p>Debes completar los siguientes puntos antes de publicar:</p>
+      <ul id="listaErrores"></ul>
+      <button id="cerrarModal" class="btn-mini" type="button">Entendido</button>
+    </div>
+  </div>
+
+</div> <!-- /#container -->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Script principal -->
+<script src="script.js"></script>
+
+<!-- Blogger / OAuth -->
+<script src="blogger.js"></script>
+
+</body>
+</html>
