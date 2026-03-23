@@ -4,6 +4,38 @@
 
 let accessToken = null;
 
+let bloggerConectado = false;
+
+function actualizarBotonConexion() {
+  const btn = document.getElementById("btnConectarBlogger");
+  if (!btn) return;
+
+  if (bloggerConectado) {
+    btn.style.display = "none";
+  } else {
+    btn.style.display = "";
+  }
+}
+
+const ETIQUETAS_CITE_DOCENTE = {
+  "Javier Blanco Ávila": "25-26JavierBCITE",
+  "Susana Bordes Escalera": "25-26SusanaBCITE",
+  "María Ángeles Castaño Barriga": "25-26AngelesCCITE",
+  "Sergio Chanclón Parra": "25-26SergioCCITE",
+  "Esther María Díaz Sierra": "25-26EstherDCITE",
+  "Jorge Fernández Solana": "25-26JorgeFCITE",
+  "Alba González Rodríguez": "25-26AlbaGCITE",
+  "Susana Lobato Muñoz": "25-26SusanaLCITE",
+  "Noelia Molina Rubio": "25-26NoeliaMCITE",
+  "María del Campo Muñoz Collado": "25-26MaríaMuñozCITE",
+  "Encarnación Ortiz Fernández": "25-26EncarnaOCITE",
+  "Lucía Pajares Moreno": "25-26LuciaPCITE",
+  "María Asunción Quintana Castro": "25-26AsunciónQCITE",
+  "María Remedios Román Román": "25-26MaríaRománCITE",
+  "María Luisa Santos Martínez": "25-26LuisiSCITE",
+  "Cosme A. Tomé Fernández": "25-26CosmeTCITE"
+};
+
 /* Logos:
    Asegúrate de que estos archivos o URLs apunten a imágenes accesibles
    (pueden ser rutas absolutas a imágenes subidas a Blogger, Drive, etc.).
@@ -45,6 +77,12 @@ function iniciarOAuth() {
     callback: (tokenResponse) => {
 
       accessToken = tokenResponse.access_token;
+      bloggerConectado = true;
+
+      const btn = document.getElementById("btnConectarBlogger");
+      if (btn) {
+        btn.style.display = "none";
+      }
 
       // Ocultar pantalla "Conectando..."
       ocultarPantallaConectando();
@@ -227,28 +265,29 @@ function bloque(titulo, contenido) {
   `;
 }
 
-  const coords = joinValoresSelect("#coordinadores");
-  const titulo = esc($("#tituloEvidencia").val().trim());
-  const grupos = joinValoresSelect("#grupos");
-  const objetivoFijo = "Integrar el uso de tecnologías en actividades educativas cotidianas.";
-  const relP = joinValoresSelect("#relProyecto");
-  const como = esc($("#descripcion").val().trim());
+const coords = joinValoresSelect("#coordinadores");
+const titulo = esc($("#tituloEvidencia").val().trim());
+const grupos = joinValoresSelect("#grupos");
+const objetivos = joinValoresSelect("#objetivosCite");
+const relP = joinValoresSelect("#relProyecto");
+const como = esc($("#descripcion").val().trim());
+const metodologias = joinValoresSelect("#metodologiasActivas");
 
-  const descPrev = esc($("#descripcionPreparados").val().trim());
-  const tiempoPrev = valorSelectTexto("#tiempoPreparacion");
+const descPrev = esc($("#descripcionPreparados").val().trim());
+const tiempoPrev = valorSelectTexto("#tiempoPreparacion");
 
-  const herr = joinValoresSelect("#herramientasTec");
-  const pags = joinValoresSelect("#paginasWeb");
-  const soft = joinValoresSelect("#softwareEspecifico");
-  const mult = joinValoresSelect("#elementosMultimediaTec");
-  const otros = esc($("#otrosTec").val().trim());
+const herr = joinValoresSelect("#herramientasTec");
+const pags = joinValoresSelect("#paginasWeb");
+const soft = joinValoresSelect("#softwareEspecifico");
+const mult = joinValoresSelect("#elementosMultimediaTec");
+const otros = esc($("#otrosTec").val().trim());
 
-  const sesiones = valorSelectTexto("#tiempoSesiones");
-  const horas = valorSelectTexto("#tiempoHoras");
-  const minutos = valorSelectTexto("#tiempoMinutos");
-  const tiempoEjec = horas && minutos ? `${horas} / ${minutos}` : (horas || minutos);
+const sesiones = valorSelectTexto("#tiempoSesiones");
+const horas = valorSelectTexto("#tiempoHoras");
+const minutos = valorSelectTexto("#tiempoMinutos");
+const tiempoEjec = horas && minutos ? `${horas} / ${minutos}` : (horas || minutos);
 
-  const tipo = joinValoresSelect("#elementosDocu");
+const tipo = joinValoresSelect("#elementosDocu");
 
   // Construcción de bloques con filas solo si hay datos
   const bloque1 = bloque("BLOQUE 1. Datos iniciales",
@@ -257,11 +296,12 @@ function bloque(titulo, contenido) {
   );
 
   const bloque2 = bloque("BLOQUE 2. Descripción",
-    fila("Grupos", grupos) +
-    fila("Objetivo", objetivoFijo) +
-    fila("Relación", relP) +
-    fila("Desarrollo", como)
-  );
+  fila("Grupos", grupos) +
+  fila("Objetivo", objetivos) +
+  fila("Relación", relP) +
+  fila("Desarrollo", como) +
+  fila("Metodologías activas", metodologias)
+);
 
   const bloque3 = bloque("BLOQUE 3. Preparación",
     fila("Descripción", descPrev) +
@@ -317,51 +357,103 @@ function bloque(titulo, contenido) {
 /* ============================================================
    CUERPO HTML COMPLETO PARA BLOGGER
 ============================================================ */
-function generarHTMLparaBlogger() {
+function generarHTMLparaBlogger(payload) {
+  const titulo = esc(payload.titulo || "");
+  const texto = esc(payload.texto || "");
 
-  // 🔹 Recuperar proyecto si se ha perdido
-  if (!window.PROYECTO_ACTUAL) {
-    window.PROYECTO_ACTUAL = localStorage.getItem("proyectoActual");
-  }
-
-  const titulo = esc($("#tituloEvidencia").val().trim());
-  const texto  = esc($("#textoBlogger").val().trim());
-
-  // Imágenes
   let imagenesHTML = "";
-  document.querySelectorAll("#previewPreparados img, #previewPub img")
-    .forEach(img => {
+  let videosHTML = "";
+
+  if (payload.proyecto === "CITE") {
+    (payload.preparacion?.imagenes || []).forEach(src => {
       imagenesHTML += `
       <p style="text-align:center;">
-        <img src="${img.src}" style="max-width:100%;border-radius:8px;margin:8px 0;" />
+        <img src="${src}" style="max-width:100%;border-radius:8px;margin:8px 0;" />
       </p>`;
     });
 
-  // Vídeos
-  let videosHTML = "";
-  document.querySelectorAll("#videosPrep iframe, #videosPub iframe")
-    .forEach(iframe => {
+    (payload.multimedia?.imagenes || []).forEach(src => {
+      imagenesHTML += `
+      <p style="text-align:center;">
+        <img src="${src}" style="max-width:100%;border-radius:8px;margin:8px 0;" />
+      </p>`;
+    });
+
+    (payload.preparacion?.videos || []).forEach(src => {
       videosHTML += `
       <p style="text-align:center;margin:12px 0;">
-        ${iframe.outerHTML}
+        <iframe width="300" height="170" src="${src}" allowfullscreen></iframe>
       </p>`;
     });
 
-  // ✅ SOLO CITE LLEVA FICHA
-  let ficha = "";
-  if (window.PROYECTO_ACTUAL === "CITE") {
-    ficha = generarFichaHTML();
+    (payload.multimedia?.videos || []).forEach(src => {
+      videosHTML += `
+      <p style="text-align:center;margin:12px 0;">
+        <iframe width="300" height="170" src="${src}" allowfullscreen></iframe>
+      </p>`;
+    });
+
+    return `
+    <div style="font-family:Arial, sans-serif;">
+      <h2 style="text-align:center;font-weight:bold;">${titulo}</h2>
+      <div style="text-align:justify;margin-bottom:16px;">${texto}</div>
+      ${imagenesHTML}
+      ${videosHTML}
+    </div>
+    `;
   }
 
-  return `
-  <div style="font-family:Arial, sans-serif;">
-    <h2 style="text-align:center;font-weight:bold;">${titulo}</h2>
-    <div style="text-align:justify;margin-bottom:16px;">${texto}</div>
-    ${imagenesHTML}
-    ${videosHTML}
-    ${ficha}
-  </div>
-  `;
+  if (payload.proyecto === "EMPRENDEDORA") {
+    (payload.imagenes || []).forEach(src => {
+      imagenesHTML += `
+      <p style="text-align:center;">
+        <img src="${src}" style="max-width:100%;border-radius:8px;margin:8px 0;" />
+      </p>`;
+    });
+
+    (payload.videos || []).forEach(src => {
+      videosHTML += `
+      <p style="text-align:center;margin:12px 0;">
+        <iframe width="300" height="170" src="${src}" allowfullscreen></iframe>
+      </p>`;
+    });
+
+    return `
+    <div style="font-family:Arial, sans-serif;">
+      <h2 style="text-align:center;font-weight:bold;">${titulo}</h2>
+      <div style="text-align:justify;margin-bottom:16px;">${texto}</div>
+      ${imagenesHTML}
+      ${videosHTML}
+    </div>
+    `;
+  }
+
+  if (payload.proyecto === "AULA_DEL_FUTURO") {
+    (payload.imagenes || []).forEach(src => {
+      imagenesHTML += `
+      <p style="text-align:center;">
+        <img src="${src}" style="max-width:100%;border-radius:8px;margin:8px 0;" />
+      </p>`;
+    });
+
+    (payload.videos || []).forEach(src => {
+      videosHTML += `
+      <p style="text-align:center;margin:12px 0;">
+        <iframe width="300" height="170" src="${src}" allowfullscreen></iframe>
+      </p>`;
+    });
+
+    return `
+    <div style="font-family:Arial, sans-serif;">
+      <h2 style="text-align:center;font-weight:bold;">${titulo}</h2>
+      <div style="text-align:justify;margin-bottom:16px;">${texto}</div>
+      ${imagenesHTML}
+      ${videosHTML}
+    </div>
+    `;
+  }
+
+  return "";
 }
 
 /* ============================================================
@@ -370,6 +462,7 @@ function generarHTMLparaBlogger() {
 
 function mostrarPantallaPublicando() {
   let overlay = document.getElementById("overlayPublicando");
+  let mensaje = overlay ? overlay.querySelector(".mensajePublicando") : null;
 
   // Si no existe, la crea automáticamente
   if (!overlay) {
@@ -383,9 +476,8 @@ function mostrarPantallaPublicando() {
     overlay.style.justifyContent = "center";
     overlay.style.zIndex = "3000";
 
-    const mensaje = document.createElement("div");
+    mensaje = document.createElement("div");
     mensaje.className = "mensajePublicando";
-    mensaje.textContent = "Publicando en Blogger...";
 
     mensaje.style.background = "white";
     mensaje.style.padding = "30px 40px";
@@ -399,6 +491,14 @@ function mostrarPantallaPublicando() {
 
     overlay.appendChild(mensaje);
     document.body.appendChild(overlay);
+  }
+
+  if (mensaje) {
+    mensaje.innerHTML = `
+      Publicando en Blogger...
+      <br>
+      <small>Por favor, espera</small>
+    `;
   }
 
   overlay.style.display = "flex";
@@ -415,14 +515,44 @@ function ocultarPantallaPublicando() {
 
 function mostrarPantallaConectando() {
   let overlay = document.getElementById("overlayPublicando");
+  let mensaje = overlay ? overlay.querySelector(".mensajePublicando") : null;
 
   if (!overlay) {
-    mostrarPantallaPublicando();
-    overlay = document.getElementById("overlayPublicando");
+    overlay = document.createElement("div");
+    overlay.id = "overlayPublicando";
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.background = "rgba(0,0,0,0.55)";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.zIndex = "3000";
+
+    mensaje = document.createElement("div");
+    mensaje.className = "mensajePublicando";
+
+    mensaje.style.background = "white";
+    mensaje.style.padding = "30px 40px";
+    mensaje.style.borderRadius = "14px";
+    mensaje.style.fontSize = "20px";
+    mensaje.style.fontWeight = "bold";
+    mensaje.style.color = "#003366";
+    mensaje.style.textAlign = "center";
+    mensaje.style.border = "3px solid #2d6cdf";
+    mensaje.style.boxShadow = "0 6px 25px rgba(0,0,0,0.4)";
+
+    overlay.appendChild(mensaje);
+    document.body.appendChild(overlay);
   }
 
-  overlay.querySelector(".mensajePublicando").textContent =
-    "Conectando con Blogger...";
+  if (mensaje) {
+    mensaje.innerHTML = `
+      Conectando con Blogger...
+      <br>
+      <small>Por favor, espera</small>
+    `;
+  }
+
   overlay.style.display = "flex";
 }
 
@@ -433,26 +563,69 @@ function ocultarPantallaConectando() {
 /* ============================================================
    PUBLICAR EN BLOGGER
 ============================================================ */
-async function publicarEnBlogger() {
+async function publicarEnBlogger(payload) {
+
   if (!accessToken) {
-    alert("Debes pulsar «Conectar con Blogger» antes de publicar.");
-    return;
+    const aviso = document.createElement("div");
+    aviso.style.position = "fixed";
+    aviso.style.inset = "0";
+    aviso.style.background = "rgba(0,0,0,0.45)";
+    aviso.style.display = "flex";
+    aviso.style.alignItems = "center";
+    aviso.style.justifyContent = "center";
+    aviso.style.zIndex = "4000";
+
+    const caja = document.createElement("div");
+    caja.style.background = "white";
+    caja.style.padding = "30px 40px";
+    caja.style.borderRadius = "14px";
+    caja.style.fontSize = "20px";
+    caja.style.fontWeight = "bold";
+    caja.style.color = "#003366";
+    caja.style.textAlign = "center";
+    caja.style.border = "3px solid #2d6cdf";
+    caja.style.boxShadow = "0 6px 25px rgba(0,0,0,0.4)";
+    caja.innerHTML = "⚠️ Debes conectarte con Blogger antes de publicar";
+
+    aviso.appendChild(caja);
+    document.body.appendChild(aviso);
+
+    setTimeout(() => aviso.remove(), 2500);
+
+    throw new Error("Sin conexión con Blogger");
   }
 
-  // Mostrar pantalla de "publicando…"
   if (typeof mostrarPantallaPublicando === "function") {
     mostrarPantallaPublicando();
   }
 
-  const titulo = $("#tituloEvidencia").val().trim();
-  const contenido = generarHTMLparaBlogger();
-  const etiquetas = generarEtiquetas();
+  const contenido = generarHTMLparaBlogger(payload);
+
+  let labels = [];
+
+  if (payload.proyecto === "CITE") {
+    labels.push("25-26CITEColaborativo");
+
+    (payload.coordinadores || []).forEach(nombre => {
+      if (ETIQUETAS_CITE_DOCENTE[nombre]) {
+        labels.push(ETIQUETAS_CITE_DOCENTE[nombre]);
+      }
+    });
+  }
+
+  if (payload.proyecto === "EMPRENDEDORA") {
+    labels.push("25-26CulturaEmprendedora");
+  }
+
+  if (payload.proyecto === "AULA_DEL_FUTURO") {
+    labels.push("25-26AulaDelFuturo");
+  }
 
   const entrada = {
     kind: "blogger#post",
     blog: { id: "6687362939356673323" },
-    title: titulo,
-    labels: etiquetas,
+    title: payload.titulo || "",
+    labels: [...new Set(labels)],
     content: contenido,
   };
 
@@ -470,20 +643,19 @@ async function publicarEnBlogger() {
     );
 
     if (!res.ok) {
+      const txt = await res.text();
+      console.error("Blogger API error:", txt);
       throw new Error("Error en la publicación");
     }
 
     const data = await res.json();
 
-    // Ocultar pantalla de "publicando…"
     if (typeof ocultarPantallaPublicando === "function") {
       ocultarPantallaPublicando();
     }
 
-    // Abrir entrada en nueva pestaña
     window.open(data.url, "_blank");
 
-    // MENSAJE VISUAL CON BOTÓN "ACEPTAR"
     const exito = document.createElement("div");
     exito.style.position = "fixed";
     exito.style.inset = "0";
@@ -523,20 +695,48 @@ async function publicarEnBlogger() {
     exito.appendChild(caja);
     document.body.appendChild(exito);
 
-    // Cerrar con botón
     document.getElementById("cerrarExito").onclick = () => {
       exito.remove();
     };
 
+    return { ok: true, url: data.url };
+
   } catch (e) {
-    // Ocultar pantalla de "publicando…" si hay error
+
     if (typeof ocultarPantallaPublicando === "function") {
       ocultarPantallaPublicando();
     }
 
-    alert("❌ Error al publicar en Blogger.");
+    const error = document.createElement("div");
+    error.style.position = "fixed";
+    error.style.inset = "0";
+    error.style.background = "rgba(0,0,0,0.45)";
+    error.style.display = "flex";
+    error.style.alignItems = "center";
+    error.style.justifyContent = "center";
+    error.style.zIndex = "4000";
+
+    const caja = document.createElement("div");
+    caja.style.background = "white";
+    caja.style.padding = "30px 40px";
+    caja.style.borderRadius = "14px";
+    caja.style.fontSize = "20px";
+    caja.style.fontWeight = "bold";
+    caja.style.color = "#003366";
+    caja.style.textAlign = "center";
+    caja.style.border = "3px solid #2d6cdf";
+    caja.style.boxShadow = "0 6px 25px rgba(0,0,0,0.4)";
+    caja.innerHTML = "❌ Error al publicar en Blogger";
+
+    error.appendChild(caja);
+    document.body.appendChild(error);
+
+    setTimeout(() => error.remove(), 2500);
+
+    throw e;
   }
 }
+
 /* ============================================================
    VALIDACIÓN SEGÚN PROYECTO
 ============================================================ */
@@ -582,3 +782,7 @@ function validarFormulario() {
 
   return true;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  actualizarBotonConexion();
+});

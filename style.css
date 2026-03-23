@@ -14,8 +14,14 @@ h1, h2 {
   margin: 5px 0;
 }
 
-h1 { font-size: 28px; }
-h2 { font-size: 22px; margin-bottom: 20px; }
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
 
 /* ============================================================
    CONTENEDOR GENERAL
@@ -77,6 +83,14 @@ h2 { font-size: 22px; margin-bottom: 20px; }
   }
 }
 
+/* Evitar que el grid se rompa */
+.fila-b1 > *,
+.fila-2columnas > *,
+.fila-2col > *,
+.fila-3columnas > * {
+  min-width: 0 !important;
+}
+
 /* ============================================================
    FORMULARIOS
 ============================================================ */
@@ -88,7 +102,7 @@ label {
 }
 
 input[type="text"],
-textarea,
+textarea:not(.select2-search__field),
 select {
   width: 100%;
   padding: 8px;
@@ -101,14 +115,13 @@ select {
 }
 
 input[type="text"] {
-  height: 38px;          /* alinear con Select2 */
+  height: 38px;
 }
 
-textarea {
-  height: 110px;
+textarea:not(.select2-search__field) {
+  min-height: 110px;
   resize: vertical;
 }
-
 
 /* ============================================================
    DROPZONE E IMÁGENES
@@ -126,7 +139,9 @@ textarea {
   box-sizing: border-box;
 }
 
-.dropzone.over { background: #d6e4ff; }
+.dropzone.over {
+  background: #d6e4ff;
+}
 
 .preview {
   margin-top: 12px;
@@ -135,7 +150,8 @@ textarea {
   gap: 12px;
 }
 
-.img-wrapper, .video-wrap {
+.img-wrapper,
+.video-wrap {
   position: relative;
   display: inline-block;
 }
@@ -150,7 +166,7 @@ textarea {
   position: absolute;
   top: 4px;
   right: 4px;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0, 0, 0, 0.65);
   color: white;
   width: 26px;
   height: 26px;
@@ -167,14 +183,15 @@ textarea {
 /* ============================================================
    VÍDEOS
 ============================================================ */
-.video-container { margin-top: 12px; }
+.video-container {
+  margin-top: 12px;
+}
 
 .video-wrap iframe {
   border-radius: 8px;
   border: 2px solid #2d6cdf;
 }
 
-/* Botón “+ Añadir enlace de YouTube” en azul */
 .add-video-btn {
   margin-top: 10px;
   padding: 8px 14px;
@@ -199,7 +216,6 @@ textarea {
   font-size: 14px;
 }
 
-/* Botones grandes y centrados */
 .botones-doble {
   display: flex;
   justify-content: center;
@@ -243,9 +259,11 @@ textarea {
 .modal {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.45);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(3px);
   z-index: 2000;
 }
@@ -258,7 +276,7 @@ textarea {
   padding: 25px;
   border-radius: 12px;
   border: 3px solid #2d6cdf;
-  box-shadow: 0 6px 20px rgba(0,0,50,0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 50, 0.3);
 }
 
 .modal-contenido h3 {
@@ -279,16 +297,16 @@ textarea {
 .bloque.error {
   border: 3px solid #d9534f !important;
   background: #ffefec !important;
-  box-shadow: 0 0 10px rgba(217,83,79,0.4);
+  box-shadow: 0 0 10px rgba(217, 83, 79, 0.4);
 }
 
-/* -------------------------
+/* ============================================================
    CAPA PUBLICANDO
--------------------------- */
+============================================================ */
 #overlayPublicando {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   display: none;
   align-items: center;
   justify-content: center;
@@ -304,173 +322,202 @@ textarea {
   color: #003366;
   text-align: center;
   border: 3px solid #2d6cdf;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
 }
 
 /* ============================================================
-   SELECT2 — ALTURA FIJA + SCROLL HORIZONTAL EN MULTIPLE
-   Sin descentrar el placeholder ni vaciar las opciones
+   PANTALLA INICIAL
 ============================================================ */
-
-/* Contenedor general */
-.select2-container {
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* --- SELECTS SIMPLES -------------------------------------- */
-.select2-container--default .select2-selection--single {
-  height: 38px !important;
-  line-height: 38px !important;
-  border: 1.8px solid #2d6cdf !important;
-  border-radius: 6px !important;
-  background: #ffffff !important;
-  padding: 0 8px !important;
-  box-sizing: border-box !important;
-}
-
-/* texto seleccionado / placeholder en simple */
-.select2-container--default
-.select2-selection--single
-.select2-selection__rendered {
-  line-height: 36px !important;
-  padding-left: 0 !important;
-}
-
-/* --- SELECTS MÚLTIPLES ------------------------------------ */
-.select2-container--default .select2-selection--multiple {
-  min-height: 44px !important;
-  max-height: 44px !important;
-  border: 1.8px solid #2d6cdf !important;
-  border-radius: 6px !important;
-  background: #ffffff !important;
-  padding: 4px 8px !important;
-  box-sizing: border-box !important;
-}
-
-/* Contenido (chips + caja de escritura) en una sola línea
-   con scroll horizontal */
-.select2-container--default
-.select2-selection--multiple
-.select2-selection__rendered {
-  display: block !important;
-  white-space: nowrap !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* Cada chip */
-.select2-container--default
-.select2-selection--multiple
-.select2-selection__choice {
-  display: inline-flex !important;
-  align-items: center !important;
-  padding: 2px 8px !important;
-  margin: 0 4px 0 0 !important;
-  background: #ffffff !important;
-  color: #003366 !important;
-  border: 1px solid #2d6cdf !important;
-  border-radius: 4px !important;
-  max-width: 220px !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-
-/* Campo de escritura dentro (multi) */
-.select2-container--default
-.select2-selection--multiple
-.select2-search--inline
-.select2-search__field {
-  min-width: 60px !important;
-  height: 26px !important;
-  line-height: 26px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-}
-
-/* Placeholder (texto “Selecciona una opción”) */
-.select2-container--default
-.select2-selection__placeholder {
-  color: #888 !important;
-  line-height: 36px !important;
-  white-space: nowrap !important;
-}
-
-/* Opciones del desplegable */
-.select2-container--default .select2-results__option {
-  white-space: nowrap;
-}
-
-/* Scroll horizontal visible en múltiple */
-.select2-container--default
-.select2-selection__rendered::-webkit-scrollbar {
-  height: 6px;
-}
-.select2-container--default
-.select2-selection__rendered::-webkit-scrollbar-thumb {
-  background: #2d6cdf;
-  border-radius: 4px;
-}
-
-/* IMPEDIR QUE EL GRID SE ROMPA */
-.fila-b1 > *,
-.fila-2columnas > *,
-.fila-2col > *,
-.fila-3columnas > * {
-  min-width: 0 !important;
-}
-
-/* OVERLAY DE SELECT2 (desplegable) */
-.select2-dropdown {
-  z-index: 5000 !important;
-}
-/* =========================================
-   PANTALLA INICIAL PROYECTOS
-========================================= */
-
 .pantalla-proyecto {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: linear-gradient(180deg, #2d6cdf 0%, #e8f1ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 .caja-proyecto {
-  background: white;
-  padding: 40px 50px;
-  border-radius: 18px;
+  width: min(520px, 92vw);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 46px 42px;
+  border-radius: 22px;
   text-align: center;
   border: 3px solid #2d6cdf;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
 .caja-proyecto h2 {
-  margin-top: 0;
+  margin: 0 0 22px 0;
   color: #003366;
+  font-size: 26px;
 }
 
 .btn-proyecto {
   display: block;
-  width: 260px;
-  margin: 15px auto 0;
-  padding: 14px;
-  font-size: 18px;
-  border-radius: 10px;
+  width: 100%;
+  margin: 14px auto 0;
+  padding: 18px 18px;
+  font-size: 20px;
+  border-radius: 14px;
   border: none;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 800;
   background: #2d6cdf;
   color: white;
 }
 
 .btn-proyecto:hover {
   background: #1d4faa;
+}
+
+body.selector-activo {
+  overflow: hidden;
+}
+
+/* ============================================================
+   SELECT2 — BLOQUE LIMPIO DEFINITIVO
+============================================================ */
+
+.select2-container {
+  width: 100% !important;
+}
+
+/* ===================== SINGLE ===================== */
+
+.select2-container--default .select2-selection--single {
+  height: 42px !important;
+  border: 1.8px solid #2d6cdf !important;
+  border-radius: 6px !important;
+  background: #f6f9ff !important;
+  box-sizing: border-box !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 40px !important;
+  padding-left: 10px !important;
+  padding-right: 30px !important;
+  color: #666 !important;
+  text-align: left !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #888 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 40px !important;
+  right: 8px !important;
+}
+
+/* ===================== MULTIPLE ===================== */
+
+.select2-container--default .select2-selection--multiple {
+  min-height: 42px !important;
+  border: 1.8px solid #2d6cdf !important;
+  border-radius: 6px !important;
+  background: #f6f9ff !important;
+  box-sizing: border-box !important;
+  padding: 4px 6px !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 30px !important;
+}
+
+/* placeholder completo cuando no hay nada seleccionado */
+.select2-container--default .select2-selection--multiple .select2-search--inline {
+  display: inline-block !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field {
+  width: 100% !important;
+  min-width: 100% !important;
+  margin: 4px 0 0 0 !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  border: none !important;
+  background: transparent !important;
+  color: #666 !important;
+  box-sizing: border-box !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-search__field::placeholder {
+  color: #666 !important;
+  opacity: 1 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  margin-top: 4px !important;
+  margin-right: 6px !important;
+  padding: 4px 8px !important;
+  border: 1px solid #2d6cdf !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #003366 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+  color: #003366 !important;
+  white-space: normal !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  margin-right: 6px !important;
+  color: #003366 !important;
+  border-right: none !important;
+}
+
+/* ===================== DROPDOWN ===================== */
+
+.select2-dropdown {
+  z-index: 5000 !important;
+}
+
+.select2-results__option {
+  text-align: left !important;
+  white-space: normal !important;
+}
+
+/* ===================== VALIDACIÓN ===================== */
+
+.bloque.pendiente {
+  border: 3px solid #d9534f !important;
+  background: #fff5f5 !important;
+}
+
+.bloque.completo {
+  border: 2px solid #2d6cdf !important;
+  background: #ffffff !important;
+}
+
+/* ===================== INPUT MODAL ===================== */
+
+#modalYoutube .modal-contenido input[type="text"] {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border: 1.8px solid #2d6cdf;
+  border-radius: 6px;
+  background: #f6f9ff;
+  box-sizing: border-box;
+}
+
+/* ===================== OCULTAR SELECT ORIGINAL ===================== */
+
+.select2-hidden-accessible {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
