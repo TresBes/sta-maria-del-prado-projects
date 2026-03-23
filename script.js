@@ -1444,33 +1444,35 @@ payload.dificultades =
           .catch(err => console.error("Error enviando ficha:", err));
         }
 
-        if (PROYECTO_ACTUAL === "CITE") {
-          const docente = payload._docentePrincipal;
+  if (PROYECTO_ACTUAL === "CITE") {
+  alert("Entrando en apertura de ficha");
 
-          if (!docente) {
-            alert("No hay coordinador seleccionado.");
-            return;
-          }
+  const docente = payload._docentePrincipal;
 
-          const urlBase = DOCS_CITE_POR_DOCENTE[docente];
+  if (!docente) {
+    alert("No hay coordinador seleccionado.");
+    return;
+  }
 
-          if (urlBase) {
-            let tab = "t.0";
+  const urlBase = DOCS_CITE_POR_DOCENTE[docente];
 
-            if (payload.numeroEvidencia === "Evidencia 1") tab = "t.0";
-            if (payload.numeroEvidencia === "Evidencia 2") tab = "t.caovabjwnqm1";
-            if (payload.numeroEvidencia === "Evidencia 3") tab = "t.9yezcjbdksur";
-            if (payload.numeroEvidencia === "Evidencia 4") tab = "t.n9o5wj2harv9";
-            if (payload.numeroEvidencia === "Evidencia 5") tab = "t.m1tbmg66kdno";
+  if (urlBase) {
+    let tab = "t.0";
 
-            const urlLimpia = urlBase.split("?")[0];
-            const urlFinal = `${urlLimpia}?tab=${tab}`;
+    if (payload.numeroEvidencia === "Evidencia 1") tab = "t.0";
+    if (payload.numeroEvidencia === "Evidencia 2") tab = "t.caovabjwnqm1";
+    if (payload.numeroEvidencia === "Evidencia 3") tab = "t.9yezcjbdksur";
+    if (payload.numeroEvidencia === "Evidencia 4") tab = "t.n9o5wj2harv9";
+    if (payload.numeroEvidencia === "Evidencia 5") tab = "t.m1tbmg66kdno";
 
-            window.open(urlFinal, "_blank");
-          } else {
-            alert("Este docente aún no tiene Google Docs asignado.");
-          }
-        }
+    const urlLimpia = urlBase.split("?")[0];
+    const urlFinal = `${urlLimpia}?tab=${tab}`;
+
+    window.open(urlFinal, "_blank");
+  } else {
+    alert("Este docente aún no tiene Google Docs asignado.");
+  }
+}
 
       })
       .catch((err) => {
