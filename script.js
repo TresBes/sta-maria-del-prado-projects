@@ -1466,9 +1466,14 @@ payload.dificultades =
     if (payload.numeroEvidencia === "Evidencia 5") tab = "t.m1tbmg66kdno";
 
     const urlLimpia = urlBase.split("?")[0];
-    const urlFinal = `${urlLimpia}?tab=${tab}`;
+const urlFinal = `${urlLimpia}?tab=${tab}`;
 
-    window.open(urlFinal, "_blank");
+const nuevaVentana = window.open(urlFinal, "_blank", "noopener,noreferrer");
+
+if (!nuevaVentana) {
+  alert("La ficha no se ha abierto porque el navegador ha bloqueado la ventana emergente.\n\nURL:\n" + urlFinal);
+}
+
   } else {
     alert("Este docente aún no tiene Google Docs asignado.");
   }
