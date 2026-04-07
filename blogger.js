@@ -603,31 +603,47 @@ async function publicarEnBlogger(payload) {
 
   let labels = [];
 
-  if (payload.proyecto === "CITE") {
-    labels.push("25-26CITEColaborativo");
+if (payload.proyecto === "CITE") {
+  labels.push("25-26CITEColaborativo");
 
-    (payload.coordinadores || []).forEach(nombre => {
-      if (ETIQUETAS_CITE_DOCENTE[nombre]) {
-        labels.push(ETIQUETAS_CITE_DOCENTE[nombre]);
-      }
-    });
-  }
+  (payload.coordinadores || []).forEach(nombre => {
+    if (ETIQUETAS_CITE_DOCENTE[nombre]) {
+      labels.push(ETIQUETAS_CITE_DOCENTE[nombre]);
+    }
+  });
+}
 
-  if (payload.proyecto === "EMPRENDEDORA") {
-    labels.push("25-26CulturaEmprendedora");
-  }
+if (payload.proyecto === "EMPRENDEDORA") {
+  labels.push("25-26CulturaEmprendedora");
 
-  if (payload.proyecto === "AULA_DEL_FUTURO") {
-    labels.push("25-26AulaDelFuturo");
-  }
+  (payload.coordinadores || []).forEach(nombre => {
+    const etiquetaBase = ETIQUETAS_CITE_DOCENTE[nombre];
+    if (etiquetaBase) {
+      labels.push(etiquetaBase.replace("CITE", "CEmprendedora"));
+    }
+  });
+}
 
-  const entrada = {
-    kind: "blogger#post",
-    blog: { id: "6687362939356673323" },
-    title: payload.titulo || "",
-    labels: [...new Set(labels)],
-    content: contenido,
-  };
+if (payload.proyecto === "AULA_DEL_FUTURO") {
+  labels.push("25-26AulaDelFuturo");
+
+  (payload.maestros || []).forEach(nombre => {
+    const etiquetaBase = ETIQUETAS_CITE_DOCENTE[nombre];
+    if (etiquetaBase) {
+      labels.push(etiquetaBase.replace("CITE", "AulaFuturo"));
+    }
+  });
+}
+
+labels = [...new Set(labels)];
+
+const entrada = {
+  kind: "blogger#post",
+  blog: { id: "6687362939356673323" },
+  title: payload.titulo || "",
+  labels: labels,
+  content: contenido,
+};
 
   try {
     const res = await fetch(
