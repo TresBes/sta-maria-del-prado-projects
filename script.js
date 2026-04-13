@@ -1217,17 +1217,13 @@ function elegirProyecto(tipo) {
   configurarInterfazPorProyecto();
 
   if (window.jQuery) {
-  inicializarSelects();
-  initDificultadesModelo();
-  initDificultadesEncontradasModelo();
-  evitarSaltosSelect2('#dificultadesModelo');
-  evitarSaltosSelect2('#dificultadesEncontradasModelo');
-  initLimpiezaErroresDinamica();
-  activarValidacionVisualBloques();
-}
-
-  if (typeof iniciarOAuth === "function") {
-    iniciarOAuth();
+    inicializarSelects();
+    initDificultadesModelo();
+    initDificultadesEncontradasModelo();
+    evitarSaltosSelect2('#dificultadesModelo');
+    evitarSaltosSelect2('#dificultadesEncontradasModelo');
+    initLimpiezaErroresDinamica();
+    activarValidacionVisualBloques();
   }
 }
 
