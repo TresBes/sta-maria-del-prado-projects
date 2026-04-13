@@ -10,11 +10,7 @@ function actualizarBotonConexion() {
   const btn = document.getElementById("btnConectarBlogger");
   if (!btn) return;
 
-  if (bloggerConectado) {
-    btn.style.display = "none";
-  } else {
-    btn.style.display = "";
-  }
+  btn.style.display = "";
 }
 
 const ETIQUETAS_CITE_DOCENTE = {
@@ -78,11 +74,6 @@ function iniciarOAuth() {
 
       accessToken = tokenResponse.access_token;
       bloggerConectado = true;
-
-      const btn = document.getElementById("btnConectarBlogger");
-      if (btn) {
-        btn.style.display = "none";
-      }
 
       // Ocultar pantalla "Conectando..."
       ocultarPantallaConectando();
