@@ -824,9 +824,7 @@ function bloqueCite5bValido() {
 }
 function bloqueCite6Valido() {
   const tipoDocu = jq('#elementosDocu') ? (jq('#elementosDocu').val() || []) : [];
-  const hayMedia = (contarImgs('previewCiteMedia') + contarVids('videosCiteMedia')) > 0;
-
-  return tipoDocu.length > 0 && hayMedia;
+  return tipoDocu.length > 0;
 }
 
 function bloqueCite7Valido() {
@@ -853,17 +851,15 @@ function bloqueEmp3Valido() {
 }
 
 function bloqueEmp4Valido() {
-  const hayMedia = (contarImgs('previewEmpMedia') + contarVids('videosEmpMedia')) > 0;
-  return hayMedia;
+  return true;
 }
 
 function bloqueAula1Valido() {
   const maestros = jq('#maestrosAulaDelFuturo') ? (jq('#maestrosAulaDelFuturo').val() || []) : [];
   const titulo = (document.getElementById('tituloAulaDelFuturo')?.value || "").trim();
   const texto = (document.getElementById('textoAulaDelFuturo')?.value || "").trim();
-  const hayMedia = (contarImgs('previewAulaMedia') + contarVids('videosAulaMedia')) > 0;
 
-  return maestros.length > 0 && !!titulo && !!texto && hayMedia;
+  return maestros.length > 0 && !!titulo && !!texto;
 }
 
 function validarBloquePorId(idBloque) {
@@ -937,73 +933,67 @@ function validarAntesDePublicar() {
     const maestros = jq('#maestrosAulaDelFuturo') ? (jq('#maestrosAulaDelFuturo').val() || []) : [];
     const titulo = (document.getElementById('tituloAulaDelFuturo')?.value || "").trim();
     const texto = (document.getElementById('textoAulaDelFuturo')?.value || "").trim();
-    const hayMedia = (contarImgs('previewAulaMedia') + contarVids('videosAulaMedia')) > 0;
 
     if (maestros.length === 0) errores.push("• Aula del Futuro: falta maestro/s.");
     if (!titulo) errores.push("• Aula del Futuro: falta título.");
     if (!texto) errores.push("• Aula del Futuro: falta texto.");
-    if (!hayMedia) errores.push("• Aula del Futuro: añade al menos una imagen o un vídeo.");
 
     if (errores.length) document.getElementById('aula1')?.classList.add('error');
     return errores;
   }
 
-  if (PROYECTO_ACTUAL === "EMPRENDEDORA") {
-    const coord = jq('#coordinadoresEmp') ? (jq('#coordinadoresEmp').val() || []) : [];
-    const titulo = (document.getElementById('tituloEmp')?.value || "").trim();
-    const texto = (document.getElementById('textoEmp')?.value || "").trim();
-    const sesiones = jq('#tiempoSesionesEmp') ? (jq('#tiempoSesionesEmp').val() || "") : "";
-    const horas = jq('#tiempoHorasEmp') ? (jq('#tiempoHorasEmp').val() || "") : "";
-    const minutos = jq('#tiempoMinutosEmp') ? (jq('#tiempoMinutosEmp').val() || "") : "";
-    const hayMedia = (contarImgs('previewEmpMedia') + contarVids('videosEmpMedia')) > 0;
+if (PROYECTO_ACTUAL === "EMPRENDEDORA") {
+  const coord = jq('#coordinadoresEmp') ? (jq('#coordinadoresEmp').val() || []) : [];
+  const titulo = (document.getElementById('tituloEmp')?.value || "").trim();
+  const texto = (document.getElementById('textoEmp')?.value || "").trim();
+  const sesiones = jq('#tiempoSesionesEmp') ? (jq('#tiempoSesionesEmp').val() || "") : "";
+  const horas = jq('#tiempoHorasEmp') ? (jq('#tiempoHorasEmp').val() || "") : "";
+  const minutos = jq('#tiempoMinutosEmp') ? (jq('#tiempoMinutosEmp').val() || "") : "";
 
-    if (coord.length === 0) errores.push("• Cultura Emprendedora: falta coordinador/a.");
-    if (!titulo) errores.push("• Cultura Emprendedora: falta título.");
-    if (!sesiones) errores.push("• Cultura Emprendedora: faltan sesiones.");
-    if (!horas && !minutos) errores.push("• Cultura Emprendedora: falta tiempo (horas o minutos).");
-    if (!texto) errores.push("• Cultura Emprendedora: falta texto.");
-    if (!hayMedia) errores.push("• Cultura Emprendedora: añade al menos una imagen o un vídeo.");
+  if (coord.length === 0) errores.push("• Cultura Emprendedora: falta coordinador/a.");
+  if (!titulo) errores.push("• Cultura Emprendedora: falta título.");
+  if (!sesiones) errores.push("• Cultura Emprendedora: faltan sesiones.");
+  if (!horas && !minutos) errores.push("• Cultura Emprendedora: falta tiempo (horas o minutos).");
+  if (!texto) errores.push("• Cultura Emprendedora: falta texto.");
 
-    if (errores.length) {
-      document.getElementById('emp1')?.classList.add('error');
-      document.getElementById('emp2')?.classList.add('error');
-      document.getElementById('emp3')?.classList.add('error');
-      document.getElementById('emp4')?.classList.add('error');
-    }
-    return errores;
+  if (errores.length) {
+    document.getElementById('emp1')?.classList.add('error');
+    document.getElementById('emp2')?.classList.add('error');
+    document.getElementById('emp3')?.classList.add('error');
   }
+  return errores;
+}
 
   if (PROYECTO_ACTUAL === "CITE") {
-    const coord = jq('#coordinadores') ? (jq('#coordinadores').val() || []) : [];
-    const titulo = (document.getElementById('tituloEvidencia')?.value || "").trim();
-    const objetivos = jq('#objetivosCite') ? (jq('#objetivosCite').val() || []) : [];
-    const numeroEvidencia = jq('#numeroEvidencia') ? (jq('#numeroEvidencia').val() || "") : "";
+  const coord = jq('#coordinadores') ? (jq('#coordinadores').val() || []) : [];
+  const titulo = (document.getElementById('tituloEvidencia')?.value || "").trim();
+  const objetivos = jq('#objetivosCite') ? (jq('#objetivosCite').val() || []) : [];
+  const numeroEvidencia = jq('#numeroEvidencia') ? (jq('#numeroEvidencia').val() || "") : "";
 
-    const gruposSel = jq('#grupos') ? (jq('#grupos').val() || []) : [];
-    const relSel = jq('#relProyecto') ? (jq('#relProyecto').val() || []) : [];
-    const metodSel = jq('#metodologiasActivas') ? (jq('#metodologiasActivas').val() || []) : [];
-    const desc = (document.getElementById('descripcion')?.value || "").trim();
-    const difs = (document.getElementById('dificultades')?.value || "").trim();
-    const modeloDif = jq('#dificultadesEncontradasModelo') ? (jq('#dificultadesEncontradasModelo').val() || []) : [];
+  const gruposSel = jq('#grupos') ? (jq('#grupos').val() || []) : [];
+  const relSel = jq('#relProyecto') ? (jq('#relProyecto').val() || []) : [];
+  const metodSel = jq('#metodologiasActivas') ? (jq('#metodologiasActivas').val() || []) : [];
+  const desc = (document.getElementById('descripcion')?.value || "").trim();
+  const difs = (document.getElementById('dificultades')?.value || "").trim();
+  const modeloDif = jq('#dificultadesEncontradasModelo') ? (jq('#dificultadesEncontradasModelo').val() || []) : [];
 
-    const h = jq('#herramientasTec') ? (jq('#herramientasTec').val() || []).length : 0;
-    const p = jq('#paginasWeb') ? (jq('#paginasWeb').val() || []).length : 0;
-    const s = jq('#softwareEspecifico') ? (jq('#softwareEspecifico').val() || []).length : 0;
-    const e = jq('#elementosMultimediaTec') ? (jq('#elementosMultimediaTec').val() || []).length : 0;
-    const otros = (document.getElementById('otrosTec')?.value || "").trim();
+  const h = jq('#herramientasTec') ? (jq('#herramientasTec').val() || []).length : 0;
+  const p = jq('#paginasWeb') ? (jq('#paginasWeb').val() || []).length : 0;
+  const s = jq('#softwareEspecifico') ? (jq('#softwareEspecifico').val() || []).length : 0;
+  const e = jq('#elementosMultimediaTec') ? (jq('#elementosMultimediaTec').val() || []).length : 0;
+  const otros = (document.getElementById('otrosTec')?.value || "").trim();
 
-    const sesiones = jq('#tiempoSesiones') ? (jq('#tiempoSesiones').val() || "") : "";
-    const horas = jq('#tiempoHoras') ? (jq('#tiempoHoras').val() || "") : "";
-    const minutos = jq('#tiempoMinutos') ? (jq('#tiempoMinutos').val() || "") : "";
+  const sesiones = jq('#tiempoSesiones') ? (jq('#tiempoSesiones').val() || "") : "";
+  const horas = jq('#tiempoHoras') ? (jq('#tiempoHoras').val() || "") : "";
+  const minutos = jq('#tiempoMinutos') ? (jq('#tiempoMinutos').val() || "") : "";
 
-    const difPorcentajeModelo = jq('#dificultadesModelo') ? (jq('#dificultadesModelo').val() || []) : [];
-    const difPorcentajeOtros = (document.getElementById('dificultadesPorcentajeTrabajo')?.value || "").trim();
-    const difPorcentaje = difPorcentajeModelo.length > 0 || !!difPorcentajeOtros;
+  const difPorcentajeModelo = jq('#dificultadesModelo') ? (jq('#dificultadesModelo').val() || []) : [];
+  const difPorcentajeOtros = (document.getElementById('dificultadesPorcentajeTrabajo')?.value || "").trim();
+  const difPorcentaje = difPorcentajeModelo.length > 0 || !!difPorcentajeOtros;
 
-    const tipoDocu = jq('#elementosDocu') ? (jq('#elementosDocu').val() || []) : [];
-    const hayMedia = (contarImgs('previewCiteMedia') + contarVids('videosCiteMedia')) > 0;
+  const tipoDocu = jq('#elementosDocu') ? (jq('#elementosDocu').val() || []) : [];
 
-    const textoWP = (document.getElementById('textoCite')?.value || "").trim();
+  const textoWP = (document.getElementById('textoCite')?.value || "").trim();
 
 
     if (coord.length === 0) {
@@ -1069,16 +1059,6 @@ function validarAntesDePublicar() {
     if (!difPorcentaje) {
       errores.push("• CITE: falta explicar las dificultades para alcanzar el % de trabajo con el alumnado.");
       document.getElementById('cite5b')?.classList.add('error');
-    }
-
-    if (tipoDocu.length === 0) {
-      errores.push("• CITE: falta tipo de elementos.");
-      document.getElementById('cite6')?.classList.add('error');
-    }
-
-    if (tipoDocu.length > 0 && !hayMedia) {
-      errores.push("• CITE: falta imagen o vídeo.");
-      document.getElementById('cite6')?.classList.add('error');
     }
 
     if (!textoWP) {
