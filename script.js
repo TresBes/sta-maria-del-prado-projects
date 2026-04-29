@@ -199,7 +199,7 @@ const dificultadesEncontradasModelo = [
 ============================================================ */
 const DOCS_CITE_POR_DOCENTE = {
   "Javier Blanco Ávila":
-    "https://docs.google.com/document/d/1jsRGz27fobXD_QXzheAhsEQIG10x-ZYanL3mZBhbR_I/edit?pli=1&tab=t.0",
+    "https://docs.google.com/document/d/1DoacXH7GfM0ZQsIp96d_DMDCNdpkyqc1r1RqoVLA_ko/edit?tab=t.0",
 
   "Susana Bordes Escalera":
     "https://docs.google.com/document/d/1vWlQZ00SAUdRucni9lu8IKpKq4X9EB1MxF3XtWh-98s/edit?pli=1&tab=t.0",
@@ -211,11 +211,11 @@ const DOCS_CITE_POR_DOCENTE = {
     "https://docs.google.com/document/d/1IJz1Yz028rkkzx--trX0ftnegiC-Qn0OEG7VJpYYW4g/edit?pli=1&tab=t.0",
 
   "Jorge Fernández Solana":
-  "https://docs.google.com/document/d/1XHn_KBvriw8BdNci4eYvPpM_hG5T-pfDIruWdymvDAU/edit",
+    "https://docs.google.com/document/d/1XHn_KBvriw8BdNci4eYvPpM_hG5T-pfDIruWdymvDAU/edit",
 
   "Lucía Pajares Moreno":
-  "https://docs.google.com/document/d/1CFX3k5RWaBVi92RrvsQmLUye17dzbJxAvt46BzPMiPI/edit",
-  
+    "https://docs.google.com/document/d/1CFX3k5RWaBVi92RrvsQmLUye17dzbJxAvt46BzPMiPI/edit",
+
   "Alba González Rodríguez":
     "https://docs.google.com/document/d/1pcdoDejTG0MkYoj6gJ-J770RuY8_D2hW0g1kdCQgslE/edit?tab=t.0",
 
@@ -226,7 +226,7 @@ const DOCS_CITE_POR_DOCENTE = {
     "https://docs.google.com/document/d/17r-3XhjuCZ0MxEOapjeUyGmI-WpDgFyP4PiiB43NO_4/edit?pli=1&tab=t.0",
 
   "María del Campo Muñoz Collado":
-    "https://docs.google.com/document/d/1WK7CsX3rVvHmg8zre7vzLDk1tzIaSGz_F1_loK-q_88/edit?pli=1&tab=t.0",
+    "https://docs.google.com/document/d/1D0S6NZpLgkmRdYGZVLv4cVCSdHbxOEQJa1KtyYl125w/edit?tab=t.0",
 
   "Encarnación Ortiz Fernández":
     "https://docs.google.com/document/d/1-1F4THTHhd41cFAB-UEc2944Tdi3b4bXxNSzS9vs8F0/edit?pli=1&tab=t.0",
