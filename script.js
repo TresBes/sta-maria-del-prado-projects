@@ -133,7 +133,7 @@ const elementosDocu = [
   'Imágenes','Vídeos','Revista Crónica Manzanete','Programa de Radio'
 ];
 
-const tiempoSesiones = Array.from({ length: 10 }, (_, i) =>
+const tiempoSesiones = Array.from({ length: 50 }, (_, i) =>
   i === 0 ? '1 sesión' : `${i + 1} sesiones`
 );
 
