@@ -111,18 +111,89 @@ const tiemposPreparacion = [
 ];
 
 const herramientasTec = [
-  'Ordenador','Tablet','Pizarra digital','Cámara de Vídeo','Cámara de fotos',
-  'Mesa de mezclas','Microfonía','Robot','Gafas realidad virtual'
+  'Ordenador',
+  'Tablet',
+  'Pizarra digital',
+  'Cámara de vídeo',
+  'Cámara de fotos',
+  'Mesa de mezclas',
+  'Microfonía',
+  'Robot',
+  'Gafas de realidad virtual',
+  'Impresora 3D',
+  'Escáner',
+  'Chromebook',
+  'Panel interactivo',
+  'Altavoz / equipo de sonido',
+  'Auriculares',
+  'Microscopio digital',
+  'Proyector'
 ];
 
 const paginasWeb = [
-  'Explorador','Abiex web','Blog del Centro','Librarium','Youtube',
-  'R.A.E.','Kahoot','Pixel Art','Genially','Quizziz',
-  'Libro digital','Google Bing Imagen Creator IA'
+  'Explorador web',
+  'AbiesWeb',
+  'Blog del Centro',
+  'Librarium',
+  'YouTube',
+  'RAE',
+  'Kahoot',
+  'Quizizz',
+  'Genially',
+  'Canva',
+  'ChatGPT',
+  'Google',
+  'Google Docs',
+  'Google Sheets',
+  'Google Slides',
+  'Google Drive',
+  'Google Maps',
+  'Google Earth',
+  'Gemini',
+  'Bing Image Creator',
+  'Wordwall',
+  'Liveworksheets',
+  'Educaplay',
+  'Plickers',
+  'ClassDojo',
+  'Scratch',
+  'Pixilart',
+  'Pinterest',
+  'Wikipedia',
+  'Diccionario online',
+  'Traductor',
+  'Banco de imágenes',
+  'Repositorio de vídeos educativos'
 ];
 
 const softwareEspecifico = [
-  'Word','Procesador de texto','Canva','Audacity','Genially','Quizziz','Kahoot'
+  'Word',
+  'Procesador de texto',
+  'Canva',
+  'Audacity',
+  'Genially',
+  'Quizizz',
+  'Kahoot',
+  'Paint',
+  'Calculadora',
+  'PowerPoint',
+  'Excel',
+  'Google Docs',
+  'Google Sheets',
+  'Presentaciones de Google',
+  'Scratch',
+  'CapCut',
+  'Paint 3D',
+  'Clipchamp',
+  'iMovie',
+  'OpenShot',
+  'Shotcut',
+  'MuseScore',
+  'Scratch Junior',
+  'Tux Paint',
+  'GIMP',
+  'Inkscape',
+  'OBS Studio'
 ];
 
 const elementosMultimediaTec = [
