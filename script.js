@@ -1470,27 +1470,26 @@ payload.dificultades =
     Promise.resolve(publicarEnBlogger(payload))
       .then((resultado) => {
 
-        if (!resultado || resultado.ok === false) {
-          console.warn("Publicación no confirmada, no se abre Google Docs.");
-          return;
-        }
+ if (!resultado || resultado.ok === false) {
+  console.warn("Publicación no confirmada, no se abre Google Docs.");
+  return;
+}
 
-        if (PROYECTO_ACTUAL === "CITE" && payload.ficha && payload._docentePrincipal) {
-          const urlDoc = DOCS_CITE_POR_DOCENTE[payload._docentePrincipal];
+if (PROYECTO_ACTUAL === "CITE" && payload.ficha && payload._docentePrincipal) {
+  const urlDoc = DOCS_CITE_POR_DOCENTE[payload._docentePrincipal];
 
-          fetch("https://script.google.com/macros/s/AKfycbzKlwGIRdkq7GcaAKnA-xNZu9Zss-DxblFpKpo6nfGjWiuI92NIbChazVXvYs_h2fqmZA/exec", {
-            method: "POST",
-            body: JSON.stringify({
-              docUrl: urlDoc,
-              numeroEvidencia: payload.numeroEvidencia,
-              ficha: payload.ficha
-            })
-          })
-          .then(r => r.json())
-          .then(d => console.log("Ficha enviada:", d))
-          .catch(err => console.error("Error enviando ficha:", err));
-        }
-
+  fetch("https://script.google.com/macros/s/AKfycbzKlwGIRdkq7GcaAKnA-xNZu9Zss-DxblFpKpo6nfGjWiuI92NIbChazVXvYs_h2fqmZA/exec", {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      docUrl: urlDoc,
+      numeroEvidencia: payload.numeroEvidencia,
+      ficha: payload.ficha
+    })
+  })
+  .then(() => console.log("Ficha enviada (sin respuesta visible por CORS)"))
+  .catch(err => console.error("Error enviando ficha:", err));
+}
   if (PROYECTO_ACTUAL === "CITE") {
   alert("Entrando en apertura de ficha");
 
